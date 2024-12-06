@@ -72,11 +72,11 @@ publishing {
     publications {
         maven(MavenPublication) {
 			groupId = 'com.solop.adempiere.tools'
-			artifactId = 'adempiere-template-project'
+			artifactId = 'adempeire-core-changes'
 			version = version
            	from components.java
            	pom {
-                name = 'adempiere-template-project'
+                name = 'adempeire-core-changes'
                 description = ''
                 url = 'http://www.solopsoftware.com/'
                 licenses {
