@@ -2091,5 +2091,26 @@
         <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
       </PO>
     </Step>
+    <Step SeqNo="1070" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54786" Table="AD_Process">
+        <Data AD_Column_ID="50182" Column="JasperReport" isOldNull="true">http://viewer.report/SP005/SP005_PriceListProductLabel.jasper</Data>
+        <Data AD_Column_ID="3371" Column="IsReport" oldValue="false">true</Data>
+        <Data AD_Column_ID="4656" Column="Classname" isNewNull="true" oldValue="http://viewer.report/SP005/SP005_PriceListProductLabel.jasper"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1080" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54787" Table="AD_Process">
+        <Data AD_Column_ID="50182" Column="JasperReport" isOldNull="true">http://viewer.report/SP005/SP005_ProductLabel_Barcode.jasper</Data>
+        <Data AD_Column_ID="3371" Column="IsReport" oldValue="false">true</Data>
+        <Data AD_Column_ID="4656" Column="Classname" isNewNull="true" oldValue="http://viewer.report/SP005/SP005_ProductLabel_Barcode.jasper"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1090" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54788" Table="AD_Process">
+        <Data AD_Column_ID="50182" Column="JasperReport" isOldNull="true">http://viewer.report/SP005/SP005_ProductLabel_Little.jasper</Data>
+        <Data AD_Column_ID="3371" Column="IsReport" oldValue="false">true</Data>
+        <Data AD_Column_ID="4656" Column="Classname" isNewNull="true" oldValue="http://viewer.report/SP005/SP005_ProductLabel_Little.jasper"/>
+      </PO>
+    </Step>
   </Migration>
 </Migrations>
