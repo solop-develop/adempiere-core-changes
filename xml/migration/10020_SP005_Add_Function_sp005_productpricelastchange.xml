@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="SP005" Name="SP005 Add Function sp005_productpricelastchange" ReleaseNo="1.0" SeqNo="10020">
+    <Step DBType="ALL" Parse="Y" SeqNo="10" StepType="SQL">
+      <SQLStatement>DROP FUNCTION IF EXISTS sp005_productpricelastchange(numeric, numeric, numeric, timestamp)</SQLStatement>
+    </Step>
+    <Step DBType="ALL" Parse="N" SeqNo="20" StepType="SQL">
+      <SQLStatement>CREATE OR REPLACE FUNCTION sp005_productpricelastchange(p_m_pricelist_id numeric, p_m_product_id numeric, p_pricelist numeric, p_date timestamp without time zone)
+ RETURNS timestamp without time zone
+ LANGUAGE plpgsql
+AS $function$
+DECLARE
+v_Record RECORD;
+v_ValidFrom TIMESTAMP;
+v_Count INTEGER := 0;
+BEGIN
+    FOR v_Record IN 
+SELECT pp.PriceList, plv.ValidFrom
+FROM M_PriceList_Version plv 
+INNER JOIN M_ProductPrice pp ON(pp.M_PriceList_Version_ID = plv.M_PriceList_Version_ID AND pp.M_Product_ID = p_M_Product_ID)
+WHERE plv.M_PriceList_ID = p_M_PriceList_ID
+AND plv.ValidFrom &lt; p_Date
+ORDER BY plv.ValidFrom DESC
+    LOOP
+v_Count := v_Count + 1;
+IF(ROUND(v_Record.PriceList, 2) &lt;&gt; ROUND(p_PriceList, 2) AND v_Count = 1) THEN
+    RETURN NULL;
+END IF;
+IF(ROUND(v_Record.PriceList, 2) &lt;&gt; ROUND(p_PriceList, 2) AND v_Count &gt; 1) THEN
+    RETURN v_Record.ValidFrom;
+END IF;
+    END LOOP;
+
+     SELECT INTO v_ValidFrom plv.ValidFrom
+FROM M_PriceList_Version plv 
+INNER JOIN M_ProductPrice pp ON(pp.M_PriceList_Version_ID = plv.M_PriceList_Version_ID AND pp.M_Product_ID = p_M_Product_ID)
+WHERE plv.M_PriceList_ID = p_M_PriceList_ID
+AND plv.ValidFrom &lt; p_Date 
+ORDER BY plv.ValidFrom ASC
+LIMIT 1;
+    RETURN v_ValidFrom;
+END
+$function$;</SQLStatement>
+      <RollbackStatement>DROP FUNCTION IF EXISTS sp005_productpricelastchange(numeric, numeric, numeric, timestamp)</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>
