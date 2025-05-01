@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="SP005" Name="SP005 Add Function sp005_taxrateat" ReleaseNo="1.0" SeqNo="10010">
+    <Step DBType="Postgres" Parse="N" SeqNo="10" StepType="SQL">
+      <SQLStatement>DROP FUNCTION IF EXISTS sp005_taxrateat(numeric, timestamp, varchar)</SQLStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="N" SeqNo="20" StepType="SQL">
+      <SQLStatement>CREATE OR REPLACE FUNCTION sp005_taxrateat(p_c_taxcategory_id numeric, p_validfrom timestamp without time zone, issotrx character varying)
+ RETURNS numeric
+ LANGUAGE plpgsql
+AS $function$
+DECLARE
+v_CurrentTax NUMERIC;
+BEGIN
+    -- Get Cost At
+SELECT t.Rate INTO v_CurrentTax
+FROM C_Tax t
+WHERE t.C_TaxCategory_ID = p_C_TaxCategory_ID 
+AND t.ValidFrom &lt;= p_ValidFrom
+AND (t.IsSalesTax = issotrx 
+OR 
+(issotrx = 'Y' AND (t.SOPOType = 'B' OR t.SOPOType = 'S'))
+OR
+(issotrx = 'N' AND (t.SOPOType = 'B' OR t.SOPOType = 'P'))
+)
+ORDER BY t.ValidFrom, t.IsDefault DESC
+LIMIT 1;
+--  DBMS_OUTPUT.PUT_LINE('== FTA_FarmerLiquidation_ID=' || p_FTA_FarmerLiquidation_ID || ', Amt=' || v_AvailableAmt);
+-- Valid if is null Value
+IF v_CurrentTax IS NULL THEN
+v_CurrentTax := 0;
+END IF;
+-- Default Return
+RETURN  v_CurrentTax;
+END
+$function$
+;</SQLStatement>
+      <RollbackStatement>DROP FUNCTION IF EXISTS sp005_taxrateat(numeric, timestamp, varchar)</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>
