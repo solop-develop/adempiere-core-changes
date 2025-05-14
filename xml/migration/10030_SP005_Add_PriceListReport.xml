@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="SP005 Price List" ReleaseNo="" SeqNo="10030">
+  <Migration EntityType="SP005" Name="10030_SP005_Add_PriceListReport" ReleaseNo="" SeqNo="10030">
     <Comments>SP005 Price List. By EdwinBetanc0urt</Comments>
     <Step SeqNo="20" StepType="AD">
       <PO AD_Table_ID="284" Action="I" Record_ID="54802" Table="AD_Process">
